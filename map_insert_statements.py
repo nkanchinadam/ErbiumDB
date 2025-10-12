@@ -1,6 +1,10 @@
 import json
 from typing import List, Tuple, Dict, Any
 import psycopg2
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def flatten_composite(value: Any, type_name: str, custom_types: Dict[str, List[Tuple[str, str]]]) -> Tuple[List[Any], str]:
     if type_name not in custom_types:
@@ -97,10 +101,16 @@ def generate_insert_statement_for_one_table(table_name: str, attributes: List[Tu
     else: 
         return None
 
-def format_sql_statement(sql: str, values: Tuple[Any, ...]) -> str:
+def format_sql_statement(sql: str, values: Tuple[Any, ...], db_name="postgres") -> str:
     # Use psycopg2's mogrify function to properly format the SQL statement
     # We create a dummy connection that we won't actually use to connect
-    dummy_conn = psycopg2.connect("dbname=erexpts1")
+    dummy_conn = psycopg2.connect(
+        db_name=db_name,
+        user="postgres",
+        password=os.getenv("DB_PASSWORD"),
+        host="localhost",
+        port="5432"
+    )
     dummy_cursor = dummy_conn.cursor()
     
     # mogrify returns bytes, so we decode it to a string

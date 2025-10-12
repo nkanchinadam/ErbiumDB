@@ -16,6 +16,11 @@ from construct_create_statements import create_table_statements, figure_out_mapp
 from map_insert_statements import generate_insert_statements, format_sql_statement
 from map_select_queries import generate_sql_query
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class ERShell(cmd.Cmd):
@@ -46,7 +51,11 @@ class ERShell(cmd.Cmd):
         run_query(self.db_name, arg, self.tables, self.types, self.graph)
 
 def load_data(db_name):
-    conn = psycopg2.connect(f"dbname={db_name}")
+    conn = psycopg2.connect(
+        dbname=db_name,
+        user="postgres",
+        password=os.getenv("DB_PASSWORD")
+    )
     cursor = conn.cursor()
 
     # Query the erdb_objects table for tables, types, and graph
@@ -78,7 +87,11 @@ def run_query(db_name, query, tables, types, graph):
     print("-------")
 
     # Run the query and output the results one by one
-    conn = psycopg2.connect(f"dbname={db_name}")
+    conn = psycopg2.connect(
+        dbname=db_name,
+        user="postgres",
+        password=os.getenv("DB_PASSWORD")
+    )
     cursor = conn.cursor()
     cursor.execute(sql)
     for row in cursor.fetchall():
@@ -89,7 +102,13 @@ def create_database_if_not_exists(db_name):
     assert db_name != "postgres", "Cannot use the default PostgreSQL database"
 
     # Connect to the PostgreSQL server
-    conn = psycopg2.connect("dbname=postgres")
+    conn = psycopg2.connect(
+            database="postgres",
+            user="postgres",
+            password=os.getenv("DB_PASSWORD"),
+            host="localhost",
+            port="5432"
+        ) 
     conn.autocommit = True
     cursor = conn.cursor()
     
@@ -102,7 +121,11 @@ def create_database_if_not_exists(db_name):
 
         # Connect to the existing database
         conn.close()
-        conn = psycopg2.connect(f"dbname={db_name}")
+        conn = psycopg2.connect(
+            dbname=db_name,
+            user="postgres",
+            password=os.getenv("DB_PASSWORD")
+        )
         cursor = conn.cursor()
 
         # Delete all tables from the database
@@ -131,7 +154,11 @@ def create_database_if_not_exists(db_name):
 def init_database(db_name, load_file):
     create_database_if_not_exists(db_name)
 
-    conn = psycopg2.connect(f"dbname={db_name}")
+    conn = psycopg2.connect(
+        dbname=db_name,
+        user="postgres",
+        password=os.getenv("DB_PASSWORD")
+    )
     cursor = conn.cursor()
 
     # Table to hold the metadata as JSON -- there really should only be one row in this
@@ -236,7 +263,11 @@ def insert_data(db_name, load_file):
 
     tables, types, graph = load_data(db_name)
 
-    conn = psycopg2.connect(f"dbname={db_name}")
+    conn = psycopg2.connect(
+        dbname=db_name,
+        user="postgres",
+        password=os.getenv("DB_PASSWORD")
+    )
     cursor = conn.cursor()
 
     # Insert data
