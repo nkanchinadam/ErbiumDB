@@ -24,6 +24,3 @@ def generate_query_results(queries):
       "actual_result": actual_result
     })
   return query_results
-
-if __name__ == "__main__":
-  generate_query_results()
