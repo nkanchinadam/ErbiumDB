@@ -1,4 +1,6 @@
 import json
+import generate_sql_queries
+import generate_query_results
 
 def main():
   # Prepare input data
@@ -22,7 +24,15 @@ def main():
 
   ]
 
-  llms = ""
+  llms = [
+    'chatgpt',
+    'claude'
+  ]
+
+  sql_queries = generate_sql_queries(schemas, nl_questions, llms)
+  query_results = generate_query_results(sql_queries)
+  
+  # Write query results to files
 
 if __name__ == "__main__":
   main()
