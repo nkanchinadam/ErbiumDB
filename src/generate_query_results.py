@@ -5,7 +5,7 @@ def generate_query_results(queries):
   query_results = []
   for query in queries:
     conn = psycopg2.connect(
-      database=query['schema_name'],
+      database=query['schema']['name'],
       user="postgres",
       password=os.getenv("DB_PASSWORD"),
       host="localhost",
@@ -17,7 +17,7 @@ def generate_query_results(queries):
 
     actual_result = cursor.fetchall()
     query_results.append({
-      "schema_name": query['schema']['name'],
+      "schema": query['schema'],
       "nl_question": query['nl_question'],
       "model": query['model'],
       "expected_result": query['expected_result'],
