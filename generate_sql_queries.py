@@ -14,7 +14,7 @@ def generate_sql_queries(schemas, nl_questions, models):
             'schema': schema,
             'nl_question': nl_question,
             'model': model,
-            'sql_query': query_github_models(f"{prompt_prefix} The database schema is {schema} and the question is {nl_question}", model)
+            'sql_query': query_github_models(f"{prompt_prefix} The database schema is {schema} and the question is {nl_question}", model).replace('\n', ' ').strip()
           })
         except:
           sql_queries.append({
