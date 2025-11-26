@@ -1,4 +1,5 @@
 from models.github_models import query_github_models
+import time
 
 prompt_prefix = "You are the world's best natural language to SQL translator. You will be given two things: a schema for a PostgreSQL database and a natural language question. Given these two inputs, you should respond ONLY with a SQL statement that when run against the proivided schema, returns the results that would answer the provided qeustion. Again, you should ONLY answer with the SQL statement. Do not include any extra text before or after the SQL statement."
 
@@ -7,18 +8,19 @@ def generate_sql_queries(schemas, nl_questions, models):
   for schema in schemas:
     for nl_question in nl_questions:
       for model in models:
-          try:
-            sql_queries.append({
-              'schema': schema,
-              'nl_question': nl_question,
-              'model': model,
-              'sql_query': query_github_models(f"{prompt_prefix} The database schema is {schema} and the question is {nl_question}", model)
-            })
-          except:
-            sql_queries.append({
-              'schema': schema,
-              'nl_question': nl_question,
-              'model': model,
-              'sql_query': None
-            })
+        time.sleep(4)
+        try:
+          sql_queries.append({
+            'schema': schema,
+            'nl_question': nl_question,
+            'model': model,
+            'sql_query': query_github_models(f"{prompt_prefix} The database schema is {schema} and the question is {nl_question}", model)
+          })
+        except:
+          sql_queries.append({
+            'schema': schema,
+            'nl_question': nl_question,
+            'model': model,
+            'sql_query': None
+          })
   return sql_queries
