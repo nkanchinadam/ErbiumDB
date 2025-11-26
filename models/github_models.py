@@ -1,3 +1,6 @@
+import requests
+import os
+
 def query_github_models(prompt, model):
   response = requests.post(os.environ["GITHUB_MODELS_ENDPOINT"] + '/inference/chat/completions', headers={
     "Authorization": 'Bearer ' + os.environ['GITHUB_TOKEN'],
