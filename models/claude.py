@@ -22,5 +22,3 @@ def query_claude(prompt):
   })
 
   print(response.json())
-
-query_claude('hello world')

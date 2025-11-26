@@ -1,6 +1,6 @@
 import json
-import generate_sql_queries
-import generate_query_results
+from generate_sql_queries import generate_sql_queries
+from generate_query_results import generate_query_results
 
 def main():
   # Prepare input data

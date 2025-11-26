@@ -13,10 +13,18 @@ def generate_sql_queries(schemas, nl_questions, models):
   for schema in schemas:
     for nl_question in nl_questions:
       for model in models:
-          sql_queries.append({
-            'schema': schema,
-            'nl_question': nl_question,
-            'model': model,
-            'sql_query': queryModelByName[model](f"{prompt_prefix} The database schema is {schema} and the question is {nl_question}")
-          })
+          try:
+            sql_queries.append({
+              'schema': schema,
+              'nl_question': nl_question,
+              'model': model,
+              'sql_query': queryModelByName[model](f"{prompt_prefix} The database schema is {schema} and the question is {nl_question}")
+            })
+          except:
+            sql_queries.append({
+              'schema': schema,
+              'nl_question': nl_question,
+              'model': model,
+              'sql_query': None
+            })
   return sql_queries

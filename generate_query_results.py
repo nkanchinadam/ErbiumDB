@@ -1,9 +1,13 @@
 import psycopg2
 import os
+from erbium import create_database_if_not_exists
 
 def generate_query_results(queries):
   query_results = []
   for query in queries:
+
+    create_database_if_not_exists(query['schema']['name'])
+    #run_query(query['schema']['name'], query['sql_query'], query['schema']['tables'], query['schema']['types'], query['schema']['graph'])
     conn = psycopg2.connect(
       database=query['schema']['name'],
       user="postgres",
@@ -11,6 +15,7 @@ def generate_query_results(queries):
       host="localhost",
       port="5432"
     )
+    
     conn.autocommit = True
     cursor = conn.cursor()
     cursor.execute(query['sql_query'])

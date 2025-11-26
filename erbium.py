@@ -5,7 +5,6 @@ from psycopg2 import sql
 import cmd
 
 import logging
-import readline
 
 from sql_parser import parse
 from sql_analyzer import parse_and_analyze
