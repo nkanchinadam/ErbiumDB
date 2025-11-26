@@ -1,13 +1,22 @@
 import psycopg2
 import os
-from erbium import create_database_if_not_exists
+from erbium import init_database
 
 def generate_query_results(queries):
   query_results = []
   for query in queries:
+    if query['sql_query'] == None:
+      query_results.append({
+        "schema": query['schema'],
+        "nl_question": query['nl_question'],
+        "model": query['model'],
+        "sql_query": query['sql_query'],
+        "valid_query": False,
+        "actual_result": None
+      })
+      continue
 
-    create_database_if_not_exists(query['schema']['name'])
-    #run_query(query['schema']['name'], query['sql_query'], query['schema']['tables'], query['schema']['types'], query['schema']['graph'])
+    init_database(query['schema']['name'], './example.json')
     conn = psycopg2.connect(
       database=query['schema']['name'],
       user="postgres",
@@ -15,17 +24,24 @@ def generate_query_results(queries):
       host="localhost",
       port="5432"
     )
-    
+
     conn.autocommit = True
     cursor = conn.cursor()
-    cursor.execute(query['sql_query'])
 
-    actual_result = cursor.fetchall()
+    valid_query = True
+    actual_result = None
+    try:
+      cursor.execute(query['sql_query'])
+      actual_result = cursor.fetchall()
+    except:
+      valid_query = False
+
     query_results.append({
       "schema": query['schema'],
       "nl_question": query['nl_question'],
       "model": query['model'],
-      "expected_result": query['expected_result'],
+      "sql_query": query['sql_query'],
+      "valid_query": valid_query,
       "actual_result": actual_result
     })
   return query_results
