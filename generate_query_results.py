@@ -11,7 +11,7 @@ def generate_query_results(queries):
         "nl_question": query['nl_question'],
         "model": query['model'],
         "sql_query": query['sql_query'],
-        "valid_query": False,
+        "valid_query": None,
         "actual_result": None
       })
       continue
