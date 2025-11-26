@@ -30,8 +30,10 @@ def main():
 
   sql_queries = generate_sql_queries(schemas, nl_questions, llms)
   query_results = generate_query_results(sql_queries)
-  
-  # Write query results to files
 
+  with open('./query_results.json', 'w') as f:
+    json.dump(query_results, f)
+      
+      
 if __name__ == "__main__":
   main()
