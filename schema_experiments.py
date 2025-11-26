@@ -21,7 +21,6 @@ def main():
 
   nl_questions = [
     "What is the average number of students per section?",
-
   ]
 
   llms = [
