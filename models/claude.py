@@ -20,5 +20,4 @@ def query_claude(prompt):
       },
     ]
   })
-
-  print(response.json())
+  return response.json()

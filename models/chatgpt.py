@@ -1,6 +1,7 @@
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import requests
 
 load_dotenv()
 
@@ -14,3 +15,4 @@ def query_chatgpt(prompt):
   
   print(response)
   print(response.output_text)
+  return response.output_text
