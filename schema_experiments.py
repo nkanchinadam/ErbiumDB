@@ -25,8 +25,7 @@ def main():
   ]
 
   llms = [
-    'chatgpt',
-    'claude'
+    'openai/gpt-4.1'
   ]
 
   sql_queries = generate_sql_queries(schemas, nl_questions, llms)
