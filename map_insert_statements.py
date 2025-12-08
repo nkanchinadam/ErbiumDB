@@ -105,7 +105,7 @@ def format_sql_statement(sql: str, values: Tuple[Any, ...], db_name="postgres") 
     # Use psycopg2's mogrify function to properly format the SQL statement
     # We create a dummy connection that we won't actually use to connect
     dummy_conn = psycopg2.connect(
-        db_name=db_name,
+        dbname=db_name,
         user="postgres",
         password=os.getenv("DB_PASSWORD"),
         host="localhost",
