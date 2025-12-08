@@ -20,7 +20,13 @@ def main():
       })
 
   nl_questions = [
-    "What is the average number of students per section?",
+    "What are all the apparel items that are intended to be worn by men?",
+    "What are all the accessories that can be bundled with an iPhone 14 Pro Max?",
+    "What are all non-kitchen appliances?",
+    "What are all pairs of products that have at least 3 tags in common?",
+    "What is the average number of browsing sessions per user?",
+    "What are the top 5 products with the highest average review?",
+    "Are customers usually more satisfied with the physical or digital products we offer?",
   ]
 
   llms = [
